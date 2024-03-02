@@ -6,25 +6,26 @@ import com.pi4j.wiringpi.GpioUtil;
 
 public class Main {
     public static void main(String[] args) throws InterruptedException {
-        int pin = 0;
+        GpioController gpio = GpioFactory.getInstance();
 
-        // Provision the pin as an output pin
-        GpioUtil.export(pin, GpioUtil.DIRECTION_OUT);
-        Gpio.pinMode(pin, Gpio.OUTPUT);
+        // Define GPIO pins for transmission and reception
+        Pin transmitPin = RaspiPin.GPIO_01; // Replace with your transmit pin
+        Pin receivePin = RaspiPin.GPIO_02;  // Replace with your receive pin
 
-        // Send data to the pin (e.g., turn the LED on)
-        Gpio.digitalWrite(pin, Gpio.HIGH);
+        // Provision the pins as digital output and input
+        GpioPinDigitalOutput transmitOutputPin = gpio.provisionDigitalOutputPin(transmitPin, "TransmitPin", PinState.LOW);
+        GpioPinDigitalInput receiveInputPin = gpio.provisionDigitalInputPin(receivePin, PinPullResistance.PULL_DOWN);
 
-        // Wait for 5 seconds
-        Thread.sleep(5000);
+        // Transmit data (e.g., HIGH for 1 second)
+        transmitOutputPin.high();
+        Thread.sleep(1000); // Adjust as needed
+        transmitOutputPin.low();
 
-        // Send data to the pin (e.g., turn the LED off)
-        Gpio.digitalWrite(pin, Gpio.LOW);
+        // Receive data
+        boolean receivedData = receiveInputPin.isHigh();
+        System.out.println("Received Data: " + (receivedData ? "HIGH" : "LOW"));
 
-        // Unexport the pin to release resources
-        GpioUtil.unexport(pin);
-
-        /*while (true) {
-        }*/
+        // Release resources
+        gpio.shutdown();
     }
 }
