@@ -4,34 +4,22 @@ import com.pi4j.io.gpio.*;
 import com.pi4j.wiringpi.Gpio;
 
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         GpioController gpio = GpioFactory.getInstance();
 
-        // Replace with the GPIO pins you want to use
-        Gpio.pinMode(2, Gpio.INPUT);
-        Gpio.pinMode(3, Gpio.OUTPUT);
+        GpioPinDigitalInput myButton = gpio.provisionDigitalInputPin(RaspiPin.GPIO_02,             // PIN NUMBER
+                "MyButton",                   // PIN FRIENDLY NAME (optional)
+                PinPullResistance.PULL_DOWN); // PIN RESISTANCE (optional)
 
-        Gpio.analogWrite(3, 1);
+        GpioPinDigitalOutput myLed = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_04,   // PIN NUMBER
+                "My LED",           // PIN FRIENDLY NAME (optional)
+                PinState.LOW);      // PIN STARTUP STATE (optional)
 
-        try {
-            Thread.sleep(100);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
+        myLed.pulse(500);
 
-        System.out.println(Gpio.digitalRead(2) + "!!!!!");
-
-        gpio.shutdown();
-    }
-
-    private static void sendDigitalData(GpioPinDigitalOutput pin, int[] data) {
-        for (int bit : data) {
-            pin.setState(bit == 1);
-            try {
-                Thread.sleep(100); // Adjust the sleep time based on your requirements
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+        while (true) {
+            boolean buttonPressed = myButton.isHigh();
+            Thread.sleep(250);
         }
     }
 }
