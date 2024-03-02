@@ -2,24 +2,29 @@ package org.lidar;
 
 import com.pi4j.io.gpio.*;
 import com.pi4j.wiringpi.Gpio;
+import com.pi4j.wiringpi.GpioUtil;
 
 public class Main {
     public static void main(String[] args) throws InterruptedException {
-        GpioController gpio = GpioFactory.getInstance();
+        int pin = 0;
 
-        GpioPinDigitalInput myButton = gpio.provisionDigitalInputPin(RaspiPin.GPIO_02,             // PIN NUMBER
-                "MyButton",                   // PIN FRIENDLY NAME (optional)
-                PinPullResistance.PULL_DOWN); // PIN RESISTANCE (optional)
+        // Provision the pin as an output pin
+        GpioUtil.export(pin, GpioUtil.DIRECTION_OUT);
+        Gpio.pinMode(pin, Gpio.OUTPUT);
 
-        GpioPinDigitalOutput myLed = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_04,   // PIN NUMBER
-                "My LED",           // PIN FRIENDLY NAME (optional)
-                PinState.LOW);      // PIN STARTUP STATE (optional)
+        // Send data to the pin (e.g., turn the LED on)
+        Gpio.digitalWrite(pin, Gpio.HIGH);
 
-        myLed.pulse(500);
+        // Wait for 5 seconds
+        Thread.sleep(5000);
 
-        while (true) {
-            boolean buttonPressed = myButton.isHigh();
-            Thread.sleep(250);
-        }
+        // Send data to the pin (e.g., turn the LED off)
+        Gpio.digitalWrite(pin, Gpio.LOW);
+
+        // Unexport the pin to release resources
+        GpioUtil.unexport(pin);
+
+        /*while (true) {
+        }*/
     }
 }
