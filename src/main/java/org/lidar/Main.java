@@ -13,7 +13,7 @@ public class Main {
         Pin receivePin = RaspiPin.GPIO_02;  // Replace with your receive pin
 
         // Provision the pins as digital output and input
-        GpioPinDigitalOutput transmitOutputPin = gpio.provisionDigitalOutputPin(transmitPin, "TransmitPin", PinState.LOW);
+        GpioPinDigitalOutput transmitOutputPin = gpio.provisionDigitalOutputPin(transmitPin);
         GpioPinDigitalInput receiveInputPin = gpio.provisionDigitalInputPin(receivePin, PinPullResistance.PULL_DOWN);
 
         // Transmit data (e.g., HIGH for 1 second)
