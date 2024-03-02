@@ -7,7 +7,7 @@ public class Main {
         GpioController gpio = GpioFactory.getInstance();
 
         // Replace with the GPIO pins you want to use
-        GpioPinDigitalOutput senderPin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_01, "SenderPin", PinState.LOW);
+        GpioPinDigitalOutput senderPin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_02, "SenderPin", PinState.LOW);
         GpioPinDigitalInput receiverPin = gpio.provisionDigitalInputPin(RaspiPin.GPIO_03, "ReceiverPin",
                 PinPullResistance.PULL_DOWN);
 
