@@ -8,7 +8,8 @@ public class Main {
 
         // Replace with the GPIO pins you want to use
         GpioPinDigitalOutput senderPin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_01, "SenderPin", PinState.LOW);
-        GpioPinDigitalInput receiverPin = gpio.provisionDigitalInputPin(RaspiPin.GPIO_02, "ReceiverPin", PinPullResistance.PULL_DOWN);
+        GpioPinDigitalInput receiverPin = gpio.provisionDigitalInputPin(RaspiPin.GPIO_03, "ReceiverPin",
+                PinPullResistance.PULL_DOWN);
 
         int[] dataToSend = {1, 0, 1, 1, 0}; // Replace with your actual data
 
