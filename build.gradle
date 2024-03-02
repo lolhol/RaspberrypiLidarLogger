@@ -19,3 +19,8 @@ dependencies {
 test {
     useJUnitPlatform()
 }
+
+task runDemo(type: JavaExec) {
+    classpath = sourceSets.test.runtimeClasspath
+    main = "org.lidar.Main"
+}
