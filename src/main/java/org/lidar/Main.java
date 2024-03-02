@@ -1,19 +1,25 @@
 package org.lidar;
 
 import com.pi4j.io.gpio.*;
+import com.pi4j.wiringpi.Gpio;
 
 public class Main {
     public static void main(String[] args) {
         GpioController gpio = GpioFactory.getInstance();
 
         // Replace with the GPIO pins you want to use
-        GpioPinDigitalOutput senderPin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_02, "SenderPin", PinState.LOW);
-        GpioPinDigitalInput receiverPin = gpio.provisionDigitalInputPin(RaspiPin.GPIO_03, "ReceiverPin",
-                PinPullResistance.PULL_DOWN);
+        Gpio.pinMode(2, Gpio.INPUT);
+        Gpio.pinMode(3, Gpio.OUTPUT);
 
-        int[] dataToSend = {1, 0, 1, 1, 0}; // Replace with your actual data
+        Gpio.analogWrite(3, 1);
 
-        sendDigitalData(senderPin, dataToSend);
+        try {
+            Thread.sleep(100);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+
+        System.out.println(Gpio.digitalRead(2) + "!!!!!");
 
         gpio.shutdown();
     }
